@@ -18,8 +18,17 @@ public class Topic {
 		}
 	}
 	
-	public void introduce() {
-		System.out.println(subject.getBaseLine());
+	public String introduce() {
+		String retval = "";
+		String[] factParts = subject.getFact(5);
+		
+		for(int index = 0; index < factParts.length; index++) {
+			retval += factParts[index];
+			if(index < factParts.length-1) {
+				retval += ", ";
+			}
+		}
+		return retval;
 	}
 	
 	public double distanceFrom(Map<Dimension,Integer> position) {

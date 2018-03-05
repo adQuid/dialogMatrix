@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class Character {
 
+	private boolean pc = false;
+	
 	private Map<Dimension,Integer> mood = new HashMap<Dimension,Integer>();
 	private List<Topic> topics =  new ArrayList<Topic>();;
 	
@@ -16,14 +18,21 @@ public class Character {
 		}
 	}
 	
+	public void addTopic(Subject subject) {
+		topics.add(new Topic(subject));
+	}
 	public void setTopics(List<Subject> subjects) {
 		for(Subject current: subjects) {
 			topics.add(new Topic(current));
 		}
 	}
 	
-	public void waitForTopic() {
-		nearestTopic().introduce();
+	public Topic introductoryTopic() {
+		return nearestTopic();
+	}
+	
+	public String getLine(Topic topic, Action action) {
+		return topic.introduce();
 	}
 	
 	private Topic nearestTopic() {
@@ -35,4 +44,13 @@ public class Character {
 		}
 		return nearestTopic;
 	}
+
+	public boolean isPc() {
+		return pc;
+	}
+
+	public void setPc(boolean pc) {
+		this.pc = pc;
+	}
+	
 }

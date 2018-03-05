@@ -1,19 +1,22 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 //the abstract idea of something, with natural it's natural tendencies universal to anyone
 public class Subject {
 
 	private String name;
 	private Map<Dimension,Integer> location;
-	private String baseLine;
+	private Factsheet facts;
 	
-	public Subject(String name, Map<Dimension, Integer> location, String baseLine) {
+	public Subject(String name, Map<Dimension, Integer> location, Factsheet facts) {
 		super();
 		this.name = name;
 		this.location = location;
-		this.baseLine = baseLine;
+		this.facts = facts;
 	}
 	public String getName() {
 		return name;
@@ -30,10 +33,21 @@ public class Subject {
 	public void setPosition(Dimension dimension, int position) {
 		this.location.put(dimension, position);
 	}
-	public String getBaseLine() {
-		return baseLine;
+	public String[] getFact(int knowledge) {
+		Random rand = new Random();
+		
+		List<String[]> compressedFacts = new ArrayList<String[]>();
+		for(int index = 0; index <= knowledge; index++) {
+			if(facts.getFacts().get(index) != null) {
+				for(String[] curFact: facts.getFacts().get(index)) {
+					compressedFacts.add(curFact);
+				}
+			}
+		}
+		
+		return compressedFacts.get(rand.nextInt(compressedFacts.size()));
 	}
-	public void setBaseLine(String baseLine) {
-		this.baseLine = baseLine;
-	}	
+	public void addFact(String[] fact, int level) {
+		this.facts.addFact(fact, level);
+	}
 }
