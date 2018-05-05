@@ -13,6 +13,18 @@ public class Factsheet {
 		this.facts = new HashMap<Integer,List<String[]>>();
 	}
 	
+	public Factsheet(String[][]...factLists) {
+		this();
+		int index = 0;
+		for(String[][] row: factLists) {
+			facts.put(index, new ArrayList<String[]>());
+			for(String[] current: row) {
+				facts.get(index).add(current);
+			}
+			index++;
+		}
+	}
+	
 	public void addFact(String[] fact, int level) {
 		if(facts.get(level) == null) {
 			facts.put(level,new ArrayList<String[]>());

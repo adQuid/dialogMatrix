@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dialogFlavor.LineFlavoring;
+
 //the actual "instance" of a subject that a character knows and talks about
 public class Topic {
 	Subject subject;
+	private int knowledge;
 	private Map<Dimension,Integer> location;
 	
-	public Topic(Subject subject) {
+	public Topic(Subject subject, int knowledge) {
 		this.subject = subject;
+		this.knowledge = knowledge;
 		
 		location = new HashMap<Dimension,Integer>();
 		for(Dimension current: subject.getLocation().keySet()) {
@@ -18,17 +22,25 @@ public class Topic {
 		}
 	}
 	
-	public String introduce() {
+	public Subject getSubject() {
+		return subject;
+	}
+	
+	public int getKnowledge() {
+		return knowledge;
+	}
+	
+	public String introduce(Character character) {
 		String retval = "";
-		String[] factParts = subject.getFact(5);
+		String[] factParts = subject.getFact(knowledge);
 		
 		for(int index = 0; index < factParts.length; index++) {
 			retval += factParts[index];
 			if(index < factParts.length-1) {
-				retval += ", ";
+				retval += LineFlavoring.insertFiller(character);
 			}
 		}
-		return retval;
+		return LineFlavoring.capitalizeWhenAppropriate(retval);
 	}
 	
 	public double distanceFrom(Map<Dimension,Integer> position) {
