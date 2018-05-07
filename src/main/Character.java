@@ -8,18 +8,36 @@ import java.util.Map;
 public class Character {
 
 	private boolean pc = false;
+	private String name;
 	
 	private int intelligence = 15;
 	
 	private Map<Dimension,Integer> mood = new HashMap<Dimension,Integer>();
 	private List<Topic> topics =  new ArrayList<Topic>();;
 	
-	public Character() {
+	public Character(String name) {
+		this.name=name;
 		for(Dimension current: Dimension.values()) {
 			mood.put(current, 0);
 		}
 	}
-	
+		
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getIntelligence() {
+		return intelligence;
+	}
+
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+
 	public void addTopic(Subject subject, int knowledge) {
 		topics.add(new Topic(subject, knowledge));
 	}
@@ -74,6 +92,9 @@ public class Character {
 	public List<Action> generatePossibleActions(Conversation convo){
 		List<Action> retval = new ArrayList<Action>();
 		
+		if(convo.lastSpoke.equals(this)) {
+			return retval;
+		}
 		if(knowledgeOnSubject(convo.currentTopic.getSubject()) > 0) {
 			Object[] params = new Object[1];
 			params[0] = convo.currentTopic.getSubject();

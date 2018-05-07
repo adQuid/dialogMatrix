@@ -5,17 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ai.AIThread;
 import generators.SubjectConstants;
 
 public class Tester {
 
 	public static void main(String[] args) {
-		Character player = new Character();
+		Character player = new Character("Phillip Goodmore");
 		player.setPc(true);
 		player.addTopic(SubjectConstants.FINE_WINES,4);
 		player.addTopic(SubjectConstants.MERCHANT_TRADE, 2);
 		
-		Character bob = new Character();
+		Character bob = new Character("Bob");
 		bob.addTopic(SubjectConstants.LAZY_LEAF_INN_PATRON,5);
 		bob.addTopic(SubjectConstants.MERCHANT_TRADE,5);
 		
@@ -26,6 +27,9 @@ public class Tester {
 		testConvo.addMember(player);
 		
 		bob.adjustMood(Dimension.happiness, 5);
+		
+		Thread testThread = new Thread(new AIThread(bob,testConvo));
+		testThread.start();
 		
 		testConvo.conversationRound();
 	}

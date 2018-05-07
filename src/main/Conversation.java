@@ -19,7 +19,8 @@ public class Conversation {
 	
 	boolean stale = false;
 	Character lastSpoke = null;
-	String lastLine = "";
+	String lastLine = "TEST";
+	String latestLine = "";
 	
 	public void addMember(Character joiner) {
 		conversationalists.add(joiner);
@@ -27,8 +28,7 @@ public class Conversation {
 	
 	public void submitAction(Character character, Action action) {
 		//if you acted last round, you can't act in this one
-		if(lastSpoke.equals(character)) {
-			System.out.println("Block!");
+		if(lastSpoke != null && lastSpoke.equals(character)) {
 			return;
 		}
 		setActions.put(character, action);
@@ -39,6 +39,9 @@ public class Conversation {
 	}
 	
 	public void conversationRound() {
+		//set old line
+		lastLine = latestLine;
+		
 		Action dominantAction = null;
 		Character dominantChar = null;
 		for(Character current: setActions.keySet()) {
@@ -46,17 +49,20 @@ public class Conversation {
 			dominantChar = current;
 		}
 		if(dominantAction != null) {
+			System.out.println(dominantAction.type);
 			lastSpoke = dominantChar;
 			switch(dominantAction.getType()) {
 			case silence:
-				System.out.println("umm, that was awkward");
+				latestLine = dominantChar.getName() + " stares blankly";
 				stale = true;
 				break;
 			case transition:
-				currentTopic = (Topic)(dominantAction.getParams()[0]);
+				Topic transitionTopic = (Topic)(dominantAction.getParams()[0]);
+				latestLine = "You drift to talking about "+transitionTopic.getSubject().getName();
+				currentTopic = transitionTopic;
 				break;
 			case inform:
-				System.out.println("nerd!");
+				latestLine = dominantChar.getName() + " tells you more about "+currentTopic.getSubject().getName();
 				break;
 			default:
 				System.err.println("action not recognized at end of round resolution");	
@@ -77,7 +83,7 @@ public class Conversation {
 				}
 
 				lastSpoke = starter;
-				lastLine = starter.getLine(this, null);
+				latestLine = starter.getLine(this, null);
 			}
 
 		}
@@ -88,9 +94,18 @@ public class Conversation {
 		
 		for(Character current: conversationalists) {
 			if(current.isPc()) {
-				GUI.displayDialogState(lastLine, current.generatePossibleActions(this),this,current);
+				GUI.displayDialogState(lastLine, latestLine, current.generatePossibleActions(this),this,current);
 			}
 		}
 	}
+	
+	public List<Character> getConversatoinalists(){
+		return conversationalists;
+	}
 		
+	public boolean isCharacterTurn(Character character) {
+		return lastSpoke != null && !lastSpoke.equals(character) && 
+				conversationalists.contains(character) && !setActions.containsKey(character);
+	}
+	
 }

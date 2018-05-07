@@ -24,6 +24,8 @@ public class GUI {
 		dialog = new JPanel();
 		responses = new JPanel();
 		
+		dialog.setLayout(new GridLayout(2,1));
+		dialog.add(new JLabel("The thing you said"));
 		dialog.add(new JLabel("The thing the guy just said"));
 		
 		responses.setLayout(new GridLayout(4,1));
@@ -39,8 +41,9 @@ public class GUI {
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);		
 	}
 	
-	public static void displayDialogState(String message, List<Action> options, Conversation convo, Character character) {
-		((JLabel)dialog.getComponent(0)).setText(message);
+	public static void displayDialogState(String oldMessage, String message, List<Action> options, Conversation convo, Character character) {
+		((JLabel)dialog.getComponent(0)).setText(oldMessage);
+		((JLabel)dialog.getComponent(1)).setText(message);
 		
 		responses.removeAll();
 		responses.setLayout(new GridLayout(options.size()+1,1));
