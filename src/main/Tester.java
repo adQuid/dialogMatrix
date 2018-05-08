@@ -13,12 +13,12 @@ public class Tester {
 	public static void main(String[] args) {
 		Character player = new Character("Phillip Goodmore");
 		player.setPc(true);
-		player.addTopic(SubjectConstants.FINE_WINES,4);
-		player.addTopic(SubjectConstants.MERCHANT_TRADE, 2);
+		player.addTopic(SubjectConstants.FINE_WINES,SubjectConstants.FINE_WINE_LOVER,4);
+		player.addTopic(SubjectConstants.MERCHANT_TRADE,SubjectConstants.MERCHANT_TRADE_BUYER, 2);
 		
 		Character bob = new Character("Bob");
-		bob.addTopic(SubjectConstants.LAZY_LEAF_INN_PATRON,5);
-		bob.addTopic(SubjectConstants.MERCHANT_TRADE,5);
+		bob.addTopic(SubjectConstants.LAZY_LEAF_INN,SubjectConstants.LAZY_LEAF_INN_PATRON,5);
+		bob.addTopic(SubjectConstants.MERCHANT_TRADE,SubjectConstants.MERCHANT_TRADE_MERCHANT,5);
 		
 		GUI.createGUI();
 		

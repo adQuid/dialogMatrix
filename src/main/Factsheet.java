@@ -25,6 +25,13 @@ public class Factsheet {
 		}
 	}
 	
+	public Factsheet(Factsheet...factsheets) {
+		this();
+		for(Factsheet current: factsheets) {
+			this.facts.putAll(current.facts);
+		}
+	}
+	
 	public void addFact(String[] fact, int level) {
 		if(facts.get(level) == null) {
 			facts.put(level,new ArrayList<String[]>());

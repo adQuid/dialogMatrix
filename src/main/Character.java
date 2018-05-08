@@ -40,8 +40,8 @@ public class Character {
 		this.intelligence = intelligence;
 	}
 
-	public void addTopic(Subject subject, int knowledge) {
-		topics.add(new Topic(subject, knowledge));
+	public void addTopic(Subject subject, Perspective perspective, int knowledge) {
+		topics.add(new Topic(subject, perspective, knowledge));
 	}
 	
 	public Topic introductoryTopic() {
@@ -52,19 +52,22 @@ public class Character {
 		
 		String preamble = "<html>";
 		if(action == null) {
-			preamble = "<html>He opens the conversation by idly rambling about "+convo.currentTopic.subject.getName()+"... ";
-			return preamble+"<br>\""+convo.currentTopic.introduce(this)+".\"</html>";
+			preamble = "<html>He opens the conversation by idly rambling about "+convo.currentSubject.getName()+"... ";
+			return preamble+"<br>\""+getRelatedTopic(convo.currentSubject).stateFact(this)+".\"</html>";
 		}
 		switch(action.getType()) {
 		case silence:
 			preamble = "<html>"+this.getName() + " stares blankly</html>";
 			return preamble;
 		case inform:
-			preamble = "<html>"+this.getName() + " talks more about "+convo.currentTopic.getSubject().getName();
+			preamble = "<html>"+this.getName() + " talks more about "+convo.currentSubject.getName();
 			if(convo.stale) {
 				preamble = "<html>Headless to your obvious lack of interest, he continues... ";			
 			}
 			break;
+		case inquire:
+			preamble = "<html>"+this.getName() + " asks to know more.</html>";
+			return preamble;
 		case transition:
 			Topic topic = (Topic)(action.getParams()[0]);
 			preamble = "<html>"+"You drift to talking about "+topic.getSubject().getName()+"...";
@@ -74,7 +77,7 @@ public class Character {
 			break;
 		}
 		
-		return preamble+"<br>\""+convo.currentTopic.introduce(this)+".\"</html>";
+		return preamble+"<br>\""+getRelatedTopic(convo.currentSubject).stateFact(this)+".\"</html>";
 	}
 	
 	public void adjustMood(Dimension dimension, int amount) {
@@ -116,15 +119,15 @@ public class Character {
 		if(convo.lastSpoke.equals(this)) {
 			return retval;
 		}
-		if(knowledgeOnSubject(convo.currentTopic.getSubject()) > 0) {
+		if(knowledgeOnSubject(convo.currentSubject) > 0) {
 			Object[] params = new Object[1];
-			params[0] = convo.currentTopic.getSubject();
+			params[0] = convo.currentSubject;
 			retval.add(new Action(ActionType.inform,params));
 			
 		}
 		
 		for(Topic current: topics) {
-			if(!current.getSubject().equals(convo.currentTopic.getSubject())
+			if(!current.getSubject().equals(convo.currentSubject)
 					&& current.distanceFrom(mood) < intelligence){
 				Object[] params = new Object[1];
 				params[0] = current;
@@ -135,4 +138,13 @@ public class Character {
 		return retval;
 	}
 	
+	//temporary solution to find appropriate topic
+	private Topic getRelatedTopic(Subject subj) {
+		for(Topic current: topics) {
+			if(current.getSubject().equals(subj)) {
+				return current;
+			}
+		}
+		return null;
+	}
 }

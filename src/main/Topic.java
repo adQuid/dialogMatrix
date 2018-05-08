@@ -9,16 +9,18 @@ import dialogFlavor.LineFlavoring;
 //the actual "instance" of a subject that a character knows and talks about
 public class Topic {
 	Subject subject;
+	Perspective perspective;
 	private int knowledge;
 	private Map<Dimension,Integer> location;
 	
-	public Topic(Subject subject, int knowledge) {
+	public Topic(Subject subject, Perspective perspective, int knowledge) {
 		this.subject = subject;
+		this.perspective = perspective;
 		this.knowledge = knowledge;
 		
 		location = new HashMap<Dimension,Integer>();
 		for(Dimension current: subject.getLocation().keySet()) {
-			location.put(current, subject.getLocation().get(current) + (int)(3*Math.random()));
+			location.put(current, subject.getLocation().get(current) + (int)(3*Math.random()) - 1);
 		}
 	}
 	
@@ -30,9 +32,9 @@ public class Topic {
 		return knowledge;
 	}
 	
-	public String introduce(Character character) {
+	public String stateFact(Character character) {
 		String retval = "";
-		String[] factParts = subject.getFact(knowledge);
+		String[] factParts = perspective.getFact(knowledge);
 		
 		for(int index = 0; index < factParts.length; index++) {
 			retval += factParts[index];

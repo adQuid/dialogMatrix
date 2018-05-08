@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Conversation {
 
-	Topic currentTopic;
+	Subject currentSubject;
 	
 	int logic1;
 	int logic2;
@@ -57,7 +57,7 @@ public class Conversation {
 				break;
 			case transition:
 				Topic transitionTopic = (Topic)(dominantAction.getParams()[0]);
-				currentTopic = transitionTopic;
+				currentSubject = transitionTopic.getSubject();
 				latestLine = dominantChar.getLine(this, dominantAction);
 				break;
 			case inform:
@@ -75,8 +75,8 @@ public class Conversation {
 				//GUI.displayDialogState(lastLine, starter.generatePossibleActions(this),this,starter);
 			}else {
 				//run AI
-				if(currentTopic == null) {
-					currentTopic = starter.introductoryTopic();
+				if(currentSubject == null) {
+					currentSubject = starter.introductoryTopic().getSubject();
 				}else {
 					System.err.println("current topic isn't empty!");
 				}
@@ -87,8 +87,8 @@ public class Conversation {
 
 		}
 		//standardize logical position
-		logic1 = currentTopic.getSubject().getLocation().get(Dimension.logic1);
-		logic2 = currentTopic.getSubject().getLocation().get(Dimension.logic2);
+		logic1 = currentSubject.getLocation().get(Dimension.logic1);
+		logic2 = currentSubject.getLocation().get(Dimension.logic2);
 		setActions.clear();
 		
 		for(Character current: conversationalists) {

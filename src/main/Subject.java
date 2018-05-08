@@ -10,13 +10,11 @@ public class Subject {
 
 	private String name;
 	private Map<Dimension,Integer> location;
-	private Factsheet facts;
 	
-	public Subject(String name, Map<Dimension, Integer> location, Factsheet facts) {
+	public Subject(String name, Map<Dimension, Integer> location) {
 		super();
 		this.name = name;
 		this.location = location;
-		this.facts = facts;
 	}
 	public String getName() {
 		return name;
@@ -32,22 +30,5 @@ public class Subject {
 	}
 	public void setPosition(Dimension dimension, int position) {
 		this.location.put(dimension, position);
-	}
-	public String[] getFact(int knowledge) {
-		Random rand = new Random();
-		
-		List<String[]> compressedFacts = new ArrayList<String[]>();
-		for(int index = 0; index <= knowledge; index++) {
-			if(facts.getFacts().get(index) != null) {
-				for(String[] curFact: facts.getFacts().get(index)) {
-					compressedFacts.add(curFact);
-				}
-			}
-		}
-		
-		return compressedFacts.get(rand.nextInt(compressedFacts.size()));
-	}
-	public void addFact(String[] fact, int level) {
-		this.facts.addFact(fact, level);
 	}
 }

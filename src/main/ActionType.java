@@ -2,6 +2,6 @@ package main;
 
 public enum ActionType {
 
-	transition,inform,silence;
+	transition,inform,inquire,silence;
 	
 }
