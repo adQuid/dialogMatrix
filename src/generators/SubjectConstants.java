@@ -24,11 +24,11 @@ public class SubjectConstants {
 		LAZY_LEAF_INN_VISITOR = new Subject("Lazy Leaf Inn",generateLocation(-1,-1,1,0,0,0),facts);
 		LAZY_LEAF_INN_VISITOR.addFact(new String[] {"a cute little place. The closest thing to cute the Rythins get, at least"}, 1);
 		
-		facts.addFact(new String[] {"I think I've come here for a few years now","it's the prices, really"}, 2);
+		facts.addFact(new String[] {"I think I've come here for a few years now","it's the prices, mostly, but they do brew a..."}, 2);
 			
 		LAZY_LEAF_INN_PATRON = new Subject("Lazy Leaf Inn",generateLocation(-1,-1,1,0,0,0),facts);
 		
-		facts.addFact(new String[] {"you should meet the cook","good kid","his mother put him up to this job I think"}, 2);
+		facts.addFact(new String[] {"...you should meet the cook","good kid","his mother put him up to this job I think"}, 2);
 
 		LAZY_LEAF_INN_LOCAL = new Subject("Lazy Leaf Inn",generateLocation(-1,-1,1,0,0,0),facts);
 		

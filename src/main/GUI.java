@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class GUI {
 		window.add(dialog,BorderLayout.NORTH);
 		window.add(responses, BorderLayout.SOUTH);
 		
-		window.pack();
+		window.setSize(600, 400);
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);		
 	}
 	
@@ -52,7 +53,7 @@ public class GUI {
 		}
 		responses.add(silenceAction(convo,character));
 		
-		window.pack();
+		
 		window.setVisible(true);
 	}
 	

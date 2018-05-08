@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dialogFlavor.LineFlavoring;
+
 public class Character {
 
 	private boolean pc = false;
@@ -46,14 +48,33 @@ public class Character {
 		return nearestTopic();
 	}
 	
-	public String getLine(Conversation convo, ActionType action) {
+	public String getLine(Conversation convo, Action action) {
 		
-		String preamble = "<html>He opens the conversation by idly rambling about "+convo.currentTopic.subject.getName()+"... <br>\"";
-		if(convo.stale) {
-			preamble = "<html>Headless to your obvious lack of interest, he continues... <br>\"";			
+		String preamble = "<html>";
+		if(action == null) {
+			preamble = "<html>He opens the conversation by idly rambling about "+convo.currentTopic.subject.getName()+"... ";
+			return preamble+"<br>\""+convo.currentTopic.introduce(this)+".\"</html>";
+		}
+		switch(action.getType()) {
+		case silence:
+			preamble = "<html>"+this.getName() + " stares blankly</html>";
+			return preamble;
+		case inform:
+			preamble = "<html>"+this.getName() + " talks more about "+convo.currentTopic.getSubject().getName();
+			if(convo.stale) {
+				preamble = "<html>Headless to your obvious lack of interest, he continues... ";			
+			}
+			break;
+		case transition:
+			Topic topic = (Topic)(action.getParams()[0]);
+			preamble = "<html>"+"You drift to talking about "+topic.getSubject().getName()+"...";
+			if(convo.stale) {
+				preamble = "<html>"+"Abruptly, he changes the topic to "+topic.getSubject().getName()+"...";
+			}
+			break;
 		}
 		
-		return preamble+convo.currentTopic.introduce(this)+".\"</html>";
+		return preamble+"<br>\""+convo.currentTopic.introduce(this)+".\"</html>";
 	}
 	
 	public void adjustMood(Dimension dimension, int amount) {

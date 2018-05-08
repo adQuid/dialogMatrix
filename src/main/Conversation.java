@@ -49,20 +49,19 @@ public class Conversation {
 			dominantChar = current;
 		}
 		if(dominantAction != null) {
-			System.out.println(dominantAction.type);
 			lastSpoke = dominantChar;
 			switch(dominantAction.getType()) {
 			case silence:
-				latestLine = dominantChar.getName() + " stares blankly";
+				latestLine = dominantChar.getLine(this, dominantAction);//dominantChar.getName() + " stares blankly";
 				stale = true;
 				break;
 			case transition:
 				Topic transitionTopic = (Topic)(dominantAction.getParams()[0]);
-				latestLine = "You drift to talking about "+transitionTopic.getSubject().getName();
 				currentTopic = transitionTopic;
+				latestLine = dominantChar.getLine(this, dominantAction);
 				break;
 			case inform:
-				latestLine = dominantChar.getName() + " tells you more about "+currentTopic.getSubject().getName();
+				latestLine = dominantChar.getLine(this, dominantAction);
 				break;
 			default:
 				System.err.println("action not recognized at end of round resolution");	
