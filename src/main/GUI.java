@@ -47,11 +47,10 @@ public class GUI {
 		((JLabel)dialog.getComponent(1)).setText(message);
 		
 		responses.removeAll();
-		responses.setLayout(new GridLayout(options.size()+1,1));
+		responses.setLayout(new GridLayout(options.size(),1));
 		for(int index = 0; index < options.size(); index++) {
 			responses.add(createOptionSelecter(options.get(index),convo,character));
 		}
-		responses.add(silenceAction(convo,character));
 		
 		
 		window.setVisible(true);
@@ -63,7 +62,7 @@ public class GUI {
 		switch(action.getType()) {
 			case inform:
 				retval.setLayout(new GridLayout(1,4));
-				JButton informButton = new JButton("Inform about "+((Subject)(action.getParams()[0])).getName());
+				JButton informButton = new JButton("Inform about "+((Topic)(action.getParams()[0])).getSubject().getName());
 				informButton.addActionListener(new SilenceListener(convo,character,action));
 				retval.add(informButton);
 				break;
@@ -72,16 +71,20 @@ public class GUI {
 				transitionButton.addActionListener(new SilenceListener(convo,character,action));
 				retval.add(transitionButton);	
 				break;
+			case inquire:
+				JButton inquireButton = new JButton("Ask about "+((Subject)(action.getParams()[0])).getName());
+				inquireButton.addActionListener(new SilenceListener(convo,character,action));
+				retval.add(inquireButton);	
+				break;
+			case silence:
+				JButton silenceButton = new JButton("Silence");
+				silenceButton.addActionListener(new SilenceListener(convo,character,action));
+				retval.add(silenceButton);	
+				break;
 			default:
 				retval.add(new JLabel("UNABLE TO PROCESS ACTION!"));
 		}
 		return retval;
 	}
-	
-	private static JButton silenceAction(Conversation convo, Character character) {
-		JButton retval = new JButton("Silence");
-		retval.addActionListener(new SilenceListener(convo,character,new Action(ActionType.silence,new Object[1])));
-		return retval;
-	}
-	
+		
 }

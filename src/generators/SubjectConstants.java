@@ -29,7 +29,7 @@ public class SubjectConstants {
 		facts.addFact(new String[] {"a cute little place. The closest thing to cute the Rythins get, at least"}, 1);
 		
 		LAZY_LEAF_INN_VISITOR = new Perspective(facts);
-		LAZY_LEAF_INN = new Subject("Lazy Leaf Inn",generateLocation(-1,-1,1,0,0,0));
+		LAZY_LEAF_INN = new Subject("the Lazy Leaf Inn",generateLocation(-1,-1,1,0,0,0));
 		
 		facts.addFact(new String[] {"I think I've come here for a few years now","it's the prices, mostly, but they do brew a..."}, 2);
 			
@@ -44,7 +44,7 @@ public class SubjectConstants {
 		facts.addFact(new String[] {"the real trick is to buy low and sell high"}, 2);
 		
 		MERCHANT_TRADE_MERCHANT = new Perspective(facts);
-		MERCHANT_TRADE = new Subject("Merchant Trade",generateLocation(-2,0,2,0,1,1));
+		MERCHANT_TRADE = new Subject("the merchant trade",generateLocation(-2,0,2,0,1,1));
 		
 		MERCHANT_TRADE_BUYER = new Perspective(new Factsheet(
 				new String[][] {{"you know what? The best food is always what you grow."}}));

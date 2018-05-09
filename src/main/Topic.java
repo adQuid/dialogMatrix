@@ -28,10 +28,14 @@ public class Topic {
 		return subject;
 	}
 	
+	public Perspective getPerspective() {
+		return perspective;
+	}
+	
 	public int getKnowledge() {
 		return knowledge;
 	}
-	
+		
 	public String stateFact(Character character) {
 		String retval = "";
 		String[] factParts = perspective.getFact(knowledge);

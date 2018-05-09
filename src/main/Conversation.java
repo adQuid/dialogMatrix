@@ -9,7 +9,9 @@ import java.util.Set;
 
 public class Conversation {
 
-	Subject currentSubject;
+	private Subject currentSubject;
+	private Topic lastTopic;
+	private Action lastAction;
 	
 	int logic1;
 	int logic2;
@@ -17,11 +19,39 @@ public class Conversation {
 	List<Character> conversationalists = new ArrayList<Character>();
 	Map<Character,Action> setActions = new HashMap<Character,Action>();
 	
-	boolean stale = false;
-	Character lastSpoke = null;
+	private boolean stale = false;
+	private Character lastSpoke = null;
 	String lastLine = "TEST";
 	String latestLine = "";
-	
+		
+	public Subject getCurrentSubject() {
+		return currentSubject;
+	}
+
+	public Topic getLastTopic() {
+		return lastTopic;
+	}
+
+	public Action getLastAction() {
+		return lastAction;
+	}
+
+	public List<Character> getConversationalists() {
+		return conversationalists;
+	}
+
+	public boolean isStale() {
+		return stale;
+	}
+
+	public Character getLastSpoke() {
+		return lastSpoke;
+	}
+
+	public String getLastLine() {
+		return lastLine;
+	}
+
 	public void addMember(Character joiner) {
 		conversationalists.add(joiner);
 	}
@@ -49,7 +79,6 @@ public class Conversation {
 			dominantChar = current;
 		}
 		if(dominantAction != null) {
-			lastSpoke = dominantChar;
 			switch(dominantAction.getType()) {
 			case silence:
 				latestLine = dominantChar.getLine(this, dominantAction);//dominantChar.getName() + " stares blankly";
@@ -57,15 +86,22 @@ public class Conversation {
 				break;
 			case transition:
 				Topic transitionTopic = (Topic)(dominantAction.getParams()[0]);
-				currentSubject = transitionTopic.getSubject();
+				stateTopic(transitionTopic);
 				latestLine = dominantChar.getLine(this, dominantAction);
 				break;
 			case inform:
+				Topic informTopic = (Topic)(dominantAction.getParams()[0]);
+				lastTopic = informTopic;
+				latestLine = dominantChar.getLine(this, dominantAction);
+				break;
+			case inquire:
 				latestLine = dominantChar.getLine(this, dominantAction);
 				break;
 			default:
 				System.err.println("action not recognized at end of round resolution");	
 			}
+			lastSpoke = dominantChar;
+			lastAction = dominantAction;
 		}else{
 			//this should only happen at the very start of a conversation
 			Character starter = conversationalists.get(0);
@@ -73,11 +109,11 @@ public class Conversation {
 			if(starter.isPc()) {
 				//this code doesn't run right now
 				//GUI.displayDialogState(lastLine, starter.generatePossibleActions(this),this,starter);
-			}else {
+			}else{
 				//run AI
 				if(currentSubject == null) {
 					currentSubject = starter.introductoryTopic().getSubject();
-				}else {
+				}else{
 					System.err.println("current topic isn't empty!");
 				}
 
@@ -105,6 +141,11 @@ public class Conversation {
 	public boolean isCharacterTurn(Character character) {
 		return lastSpoke != null && !lastSpoke.equals(character) && 
 				conversationalists.contains(character) && !setActions.containsKey(character);
+	}
+	
+	private void stateTopic(Topic topic) {
+		currentSubject = topic.getSubject();
+		lastTopic = topic;
 	}
 	
 }
