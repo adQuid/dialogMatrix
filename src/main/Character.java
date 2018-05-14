@@ -41,7 +41,11 @@ public class Character {
 	}
 
 	public void addTopic(Subject subject, Perspective perspective, int knowledge) {
-		topics.add(new Topic(subject, perspective, knowledge));
+		topics.add(new Topic(subject, perspective, knowledge, 1));
+	}
+	
+	public void addTopic(Subject subject, Perspective perspective, int knowledge, int passion) {
+		topics.add(new Topic(subject, perspective, knowledge, passion));
 	}
 	
 	public Topic introductoryTopic() {

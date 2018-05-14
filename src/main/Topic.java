@@ -11,12 +11,14 @@ public class Topic {
 	Subject subject;
 	Perspective perspective;
 	private int knowledge;
+	private int passion;
 	private Map<Dimension,Integer> location;
 	
-	public Topic(Subject subject, Perspective perspective, int knowledge) {
+	public Topic(Subject subject, Perspective perspective, int knowledge, int passion) {
 		this.subject = subject;
 		this.perspective = perspective;
 		this.knowledge = knowledge;
+		this.passion = passion;
 		
 		location = new HashMap<Dimension,Integer>();
 		for(Dimension current: subject.getLocation().keySet()) {
@@ -34,6 +36,10 @@ public class Topic {
 	
 	public int getKnowledge() {
 		return knowledge;
+	}
+	
+	public int getPassion() {
+		return passion;
 	}
 		
 	public String stateFact(Character character) {

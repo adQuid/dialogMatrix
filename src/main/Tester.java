@@ -18,7 +18,7 @@ public class Tester {
 		
 		Character bob = new Character("Bob");
 		bob.addTopic(SubjectConstants.LAZY_LEAF_INN,SubjectConstants.LAZY_LEAF_INN_PATRON,5);
-		bob.addTopic(SubjectConstants.MERCHANT_TRADE,SubjectConstants.MERCHANT_TRADE_MERCHANT,5);
+		bob.addTopic(SubjectConstants.MERCHANT_TRADE,SubjectConstants.MERCHANT_TRADE_MERCHANT,5,10);
 		
 		GUI.createGUI();
 		
