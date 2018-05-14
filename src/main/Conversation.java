@@ -88,14 +88,17 @@ public class Conversation {
 				Topic transitionTopic = (Topic)(dominantAction.getParams()[0]);
 				stateTopic(transitionTopic);
 				latestLine = dominantChar.getLine(this, dominantAction);
+				stale = false;
 				break;
 			case inform:
 				Topic informTopic = (Topic)(dominantAction.getParams()[0]);
 				lastTopic = informTopic;
 				latestLine = dominantChar.getLine(this, dominantAction);
+				stale = false;
 				break;
 			case inquire:
 				latestLine = dominantChar.getLine(this, dominantAction);
+				stale = false;
 				break;
 			default:
 				System.err.println("action not recognized at end of round resolution");	
